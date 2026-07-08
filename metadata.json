@@ -1,0 +1,6 @@
+{
+  "name": "Unique Merchants",
+  "description": "Kenya's most premium property and real estate platform based in Murang'a County, Kenol, offering AI-powered smart natural language search, interactive mapping, live chat assistance, and seamless agent companion app integration.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

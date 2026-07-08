@@ -1,0 +1,269 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Property, BlogArticle, Testimonial, CompanySettings } from './types';
+
+export const INITIAL_SETTINGS: CompanySettings = {
+  name: "Unique Merchants",
+  logo: "MU",
+  icon: "🏢",
+  primaryColor: "#0B1E5B", // Deep Navy Blue
+  secondaryColor: "#FFF200", // Vibrant Logo Yellow
+  address: "Unique Merchants Plaza, Kenol Town, Murang'a County, Kenya",
+  postalAddress: "P.O. Box 450 - 01020, Kenol, Kenya",
+  telephone: "+254 712 345 678",
+  mobile: "+254 722 710 580",
+  whatsapp: "+254 722 710 580",
+  email: "info@uniquemerchants.co.ke",
+  website: "www.uniquemerchants.co.ke",
+  facebook: "https://www.facebook.com/uniquemerchants",
+  instagram: "https://www.instagram.com/uniquemerchants/",
+  linkedin: "https://linkedin.com/company/unique-merchants-kenya",
+  youtube: "https://www.youtube.com/@uniquemerchants1790",
+  tiktok: "https://tiktok.com/@uniquemerchants_ke",
+  x: "https://x.com/uniquemerchants",
+  officeHours: "Monday - Friday: 8:00 AM - 5:00 PM, Saturday: 8:00 AM - 4:30 PM, Sunday: Closed",
+  coordinates: {
+    lat: -0.9995, // Kenol, Murang'a County
+    lng: 37.1265
+  },
+  about: "Unique Merchants is Murang'a's most trusted real estate letting and leasing platform. Strategically located in Kenol Town, we serve clients across Kenya, ensuring that high-end house letting, commercial workspace letting, and secure commercial land leasing are handled with top-tier integrity and modern technology.",
+  mission: "To provide innovative, secure, and transparent rental and leasing solutions that empower Kenyan families and business developers to let and manage properties stress-free.",
+  vision: "To be the leading property letting platform in East Africa, recognized for incorporating smart technology and absolute trustworthiness into the rental lifecycle.",
+  coreValues: [
+    "Integrity first in every letting agreement",
+    "Smart technological enablement",
+    "Local letting expertise with global service standards",
+    "Absolute tenant and landlord satisfaction"
+  ],
+  terms: "All letting and leasing properties, lands, and listings are verified independently. Letting agreements are subjected to standard Kenyan tenancy laws. Client deposits must only be made to verified Unique Merchants accounts.",
+  privacy: "Unique Merchants is committed to protecting your private credentials. Any communication, letting calculations, and properties listed through our platform are securely encrypted.",
+  burgundyColor: "#8C040E",
+  adminPasscode: "1234",
+  socialMediaNotLive: false,
+  leadBrokerName: "Daniel Maina",
+  leadBrokerPhone: "+254 722 710 580",
+  leadBrokerEmail: "info@uniquemerchants.co.ke",
+  leadBrokerPhoto: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
+  heroSlides: [
+    { image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" },
+    { image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80" },
+    { image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80" }
+  ],
+  youtubeVideos: [
+    {
+      id: "yt-1",
+      title: "Kabati Phase 3 Site Visit & Walkthrough",
+      desc: "Live drone shots and walkthrough of our verified 1/8 acre plots in Kabati.",
+      duration: "4:15",
+      thumbnail: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80",
+      url: "https://www.youtube.com/@uniquemerchants1790"
+    },
+    {
+      id: "yt-2",
+      title: "Golden Ridge Estate Premium Tour",
+      desc: "Full interior inspection of the luxurious 4-bedroom ready-for-handover houses.",
+      duration: "6:40",
+      thumbnail: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80",
+      url: "https://www.youtube.com/@uniquemerchants1790"
+    },
+    {
+      id: "yt-3",
+      title: "Kenol Plaza Luxury Offices Preview",
+      desc: "Sleek walkthrough of ready-to-let modern commercial spaces in Kenol.",
+      duration: "3:10",
+      thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80",
+      url: "https://www.youtube.com/@uniquemerchants1790"
+    }
+  ],
+  servicesContent: `### Dynamic Tenant Portals\nTenants receive custom logins for monthly invoice clearing, maintenance reporting, and automatic rent payment alerts.\n\n### Financial Audit Reporting\nProperty owners access digital bank recon spreadsheets, tax audit summaries, and instant cash flow charts.\n\n### Legal Lease Drafting\nVetted tenancy agreements crafted in compliance with Murang'a County land bylaws and land court guidelines.\n\n### Routine Inspections\nScheduled on-site checkups with detailed photo portfolios, structural stability analysis, and repair budgeting.`,
+  propertyManagementContent: `# Property Management Breakdown\nAt Unique Merchants, we take care of your property letting with utmost professionalism and technological precision.\n\n### 1. Tenant Sourcing & Onboarding\nWe market your property across major digital platforms, conduct robust tenant background checks, and handle full physical onboarding and inventory collection.\n\n### 2. Rent Collection & Financial Management\nRent is collected securely through our automated systems, with direct payouts and monthly ledger reports delivered straight to the property owner's dashboard.\n\n### 3. Full-time Repair & Property Maintenance\nWe run scheduled on-site inspections and work with pre-vetted local technicians to handle routine building upkeep and sudden emergencies smoothly.\n\n### 4. Legal Compliance & Dispute Resolution\nWe construct solid tenancy lease agreements in full compliance with Murang'a County zoning and tenant laws, representing owners in all standard land court procedures.`,
+  customPages: [
+    {
+      id: "page-1",
+      title: "Buying Guide",
+      slug: "buying-guide",
+      content: "### Unique Merchants Real Estate Buying Guide\n\nWelcome to your step-by-step real estate buying handbook for Murang'a County and fast-growing environments like Kenol, Kabati, and Thika.\n\n#### 1. Title Deed Searches (The Vital First Step)\nNever transfer money without verifying ownership. At Unique Merchants, we run direct registry searches at the Ministry of Lands offices to ensure there are no active charges or double-allocation disputes.\n\n#### 2. Conveyancing & Legal Formalities\nWe hook you up with certified, local land lawyers to prepare standard sale agreements. Ten percent deposit secures the plot, and the balance is payable inside 90 days.\n\n#### 3. Land Control Board Consent\nStandard agricultural or development plots must obtain LCB consent to approve transfer. We coordinate this entire physical routine for you seamlessly."
+    }
+  ],
+  customDropdowns: []
+};
+
+export const INITIAL_PROPERTIES: Property[] = [
+  {
+    id: "prop-1",
+    title: "Premium 3-Bedroom Maisonette, Kenol",
+    description: "A gorgeous, newly completed 3-bedroom master-ensuite maisonette in Kenol, Murang'a. Features spacious rooms, premium modern fittings, a fully fitted kitchen, and robust 24/7 security. It comes with an individual ready title deed in an elite, fast-growing neighborhood. Ready for occupancy.",
+    price: 6500000,
+    type: "buy",
+    propertyType: "Maisonette",
+    county: "Murang'a",
+    town: "Kenol",
+    estate: "Golden Ridge Estate",
+    bedrooms: 3,
+    bathrooms: 3,
+    parking: 2,
+    size: "150 sq m",
+    agent: {
+      name: "Daniel Maina",
+      phone: "+254 722 710 580",
+      email: "info@uniquemerchants.co.ke",
+      photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
+    },
+    isAiVerified: true,
+    isFeatured: true,
+    isSponsored: false,
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80"
+    ],
+    dateListed: new Date().toISOString(),
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    coordinates: {
+      lat: -0.9995,
+      lng: 37.1265
+    }
+  },
+  {
+    id: "prop-2",
+    title: "Strategic 1/8 Acre Commercial Plot, Murang'a CBD",
+    description: "This highly strategic prime plot is located in the bustling Murang'a Town Central Business District. Ideal for multi-story mixed-use development or rental apartments. Features immediate access to main highways, fully graded feeder roads, water, and electricity. Clean ready title deed.",
+    price: 2800000,
+    type: "land",
+    propertyType: "Plot",
+    county: "Murang'a",
+    town: "Murang'a Town",
+    estate: "Central Business District",
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 0,
+    size: "50x100 ft",
+    agent: {
+      name: "Mercy Wanjiku",
+      phone: "+254 722 710 580",
+      email: "info@uniquemerchants.co.ke",
+      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+    },
+    isAiVerified: true,
+    isFeatured: false,
+    isSponsored: false,
+    images: [
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+    ],
+    dateListed: new Date().toISOString(),
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    coordinates: {
+      lat: -0.7210,
+      lng: 37.1517
+    }
+  },
+  {
+    id: "prop-3",
+    title: "Executive 2-Bedroom Apartment, Kabati",
+    description: "Elegant and exceptionally spacious 2-bedroom rental apartment in Kabati. Situated just off the main Thika-Kenol highway, this residence offers an open-plan kitchen, modern tile flooring, massive balcony, master ensuite bedroom, laundry area, and robust perimeter fence security.",
+    price: 25000,
+    type: "rent",
+    propertyType: "Apartment",
+    county: "Murang'a",
+    town: "Kabati",
+    estate: "Kabati Heights",
+    bedrooms: 2,
+    bathrooms: 2,
+    parking: 1,
+    size: "95 sq m",
+    agent: {
+      name: "David Kamau",
+      phone: "+254 722 710 580",
+      email: "info@uniquemerchants.co.ke",
+      photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80"
+    },
+    isAiVerified: true,
+    isFeatured: true,
+    isSponsored: false,
+    images: [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80"
+    ],
+    dateListed: new Date().toISOString(),
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    coordinates: {
+      lat: -0.9820,
+      lng: 37.1410
+    }
+  },
+  {
+    id: "prop-4",
+    title: "Prime 1-Acre Agricultural Land, Makuyu",
+    description: "Extremely fertile prime agricultural acreage with highly nutritious red volcanic soils, located in Makuyu, Murang'a County. It is fully cleared, fenced, and ready for high-yield farming or building a majestic rural holiday farmhouse. Vetted title deed available.",
+    price: 4500000,
+    type: "land",
+    propertyType: "Plot",
+    county: "Murang'a",
+    town: "Makuyu",
+    estate: "Makuyu Green Valley",
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 0,
+    size: "1.0 Acre",
+    agent: {
+      name: "Mercy Wanjiku",
+      phone: "+254 722 710 580",
+      email: "info@uniquemerchants.co.ke",
+      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+    },
+    isAiVerified: true,
+    isFeatured: false,
+    isSponsored: false,
+    images: [
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+    ],
+    dateListed: new Date().toISOString(),
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    coordinates: {
+      lat: -0.9067,
+      lng: 37.2625
+    }
+  }
+];
+
+export const INITIAL_TESTIMONIALS: Testimonial[] = [
+  {
+    id: "test-1",
+    name: "Dr. James Kuria",
+    role: "Local Developer",
+    text: "Unique Merchants completely streamlined our lease acquisition in Kenol. Absolute transparency and prompt conveyancing checks.",
+    rating: 5,
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    successStory: "Acquired commercial plot in Kenol within 3 weeks."
+  },
+  {
+    id: "test-2",
+    name: "Phyllis Ngugi",
+    role: "Diaspora Investor",
+    text: "Buying land in Kabati from abroad was very stress-free. Mercy Wanjiku kept me updated via video tours of the progress.",
+    rating: 5,
+    photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    successStory: "Successfully purchased Kabati plot while living in the UK."
+  }
+];
+
+export const INITIAL_BLOGS: BlogArticle[] = [
+  {
+    id: "blog-1",
+    title: "Why Kenol Town is the New Real Estate Hotspot",
+    excerpt: "Discover why investors are flocking to Kenol, Murang'a County following the completion of the Kenol-Sagana-Marua dual carriageway expansion.",
+    content: "The completion of the multi-billion dual carriageway has officially turned Kenol Town into a premier commuter hub for Nairobi-based families. Travel times have dropped significantly, making Kenol real estate highly profitable...",
+    category: "Market Trends",
+    tags: ["Kenol", "Investment", "Infrastructure"],
+    author: "Samuel Njoroge",
+    date: new Date().toISOString().split('T')[0],
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    comments: []
+  }
+];

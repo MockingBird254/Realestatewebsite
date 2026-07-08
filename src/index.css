@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  /* Map emerald variables to the Logo's Deep Navy scale to seamlessly theme the app */
+  --color-emerald-950: #050E26; /* Logo very dark navy */
+  --color-emerald-900: #0B1E5B; /* Logo primary navy blue */
+  --color-emerald-800: #122970; /* Slate-tinted navy blue */
+  --color-emerald-700: #1B3C91; /* Bright dark blue */
+  --color-emerald-600: #2C52B5; /* Deep electric blue */
+  --color-emerald-500: #3E66D1;
+  --color-emerald-100: #E6ECFC;
+  --color-emerald-50: #F3F6FC;  /* Ambient soft-blue canvas */
+  
+  /* Map gold variables to the Logo's Pure Yellow scale */
+  --color-gold-600: #B89C00; /* Darker gold/yellow for high-contrast readable text */
+  --color-gold-500: #FFF200; /* Logo background vibrant yellow */
+  --color-gold-400: #FFF766; /* Lighter soft yellow */
+  --color-gold-300: #FFFAC2; /* Muted yellow accent */
+  --color-gold-100: #FFFFE0;
+  --color-gold-50: #FFFFFB;  /* Light yellow tint */
+
+  /* Specific Burgundy colors representing the burgundy 'U' monogram */
+  --color-burgundy-950: #330005;
+  --color-burgundy-900: #4A0209;
+  --color-burgundy-800: #6B030B;
+  --color-burgundy-700: #8C040E; /* Pure luxury burgundy accent */
+  --color-burgundy-600: #AD0E1A;
+  --color-burgundy-500: #CE1C29;
+  --color-burgundy-100: #FFEAEB;
+  --color-burgundy-50: #FFF5F6;
+}
+
+/* Custom visual helpers */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f6fc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0B1E5B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFF200;
+}
+
+/* Leaflet custom property tooltip overrides to display elegant, modern cards */
+.leaflet-tooltip-pane .custom-property-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.leaflet-tooltip-pane .custom-property-tooltip:before {
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+}
