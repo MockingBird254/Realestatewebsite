@@ -4068,7 +4068,7 @@ export default function App() {
               </button>
               
               <div className="text-[10px] text-gray-400 text-center leading-relaxed">
-                <p>For development, use passcode <span className="font-bold text-gray-600">admin</span> or <span className="font-bold text-gray-600">1234</span></p>
+                <p><span className="font-bold text-gray-600"></span><span className="font-bold text-gray-600"></span></p>
               </div>
             </form>
           </div>
