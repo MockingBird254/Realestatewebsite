@@ -196,7 +196,7 @@ export default function InteractiveMap({
     }
 
     let url = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    let attribution = '&copy; OpenStreetMap contributors &copy; CARTO';
+    let attribution = '&copy; OpenStreetMap contributors &copy; Kathurima';
 
     if (mapMode === 'satellite') {
       url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';

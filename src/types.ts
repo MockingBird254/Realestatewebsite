@@ -140,6 +140,7 @@ export interface CompanySettings {
       url: string;
     }[];
   }[];
+  instagramImages?: string[];
 }
 
 export interface Testimonial {

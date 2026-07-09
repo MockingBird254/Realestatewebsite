@@ -25,7 +25,6 @@ import InteractiveMap from './components/InteractiveMap';
 import RentAdvisorCalculator from './components/RentAdvisorCalculator';
 import PropertyRequestModal from './components/PropertyRequestModal';
 import AddPropertyModal from './components/AddPropertyModal';
-import LiveChat from './components/LiveChat';
 
 export default function App() {
   // Tabs: 'home', 'properties', 'management', 'buy', 'rent', 'commercial', 'land', 'about', 'blog', 'contact', 'dashboard'
@@ -141,6 +140,71 @@ export default function App() {
   const [isIconDragActive, setIsIconDragActive] = useState(false);
   const [isSlideUploading, setIsSlideUploading] = useState(false);
 
+  // Dark/Light Mode Theme States
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  // Contact / Prospectus form States
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [isSendingContact, setIsSendingContact] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactName.trim() || !contactPhone.trim() || !contactMessage.trim()) return;
+    setIsSendingContact(true);
+    try {
+      const response = await fetch('/api/properties/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: contactName,
+          phone: contactPhone,
+          description: contactMessage,
+          email: "",
+          budget: "Inquiry Desk",
+          propertyType: "General Prospectus Inquiry",
+          location: "Contact Page"
+        })
+      });
+      if (response.ok) {
+        const whatsappMsg = `Hello Unique Merchants, I have submitted a general inquiry via your website's contact desk:\n\n*Name*: ${contactName}\n*Phone*: ${contactPhone}\n*Message*: ${contactMessage}`;
+        const waUrl = getWhatsAppLink(whatsappMsg);
+        
+        setContactName("");
+        setContactPhone("");
+        setContactMessage("");
+        syncPlatformData(); // Refresh requests in admin panel
+        
+        alert("Thank you! Your prospectus message has been logged in our secure database. Click OK to instantly chat with us on WhatsApp to finalize your inquiry.");
+        try {
+          window.open(waUrl, '_blank');
+        } catch (e) {
+          window.location.href = waUrl;
+        }
+      } else {
+        alert("Failed to submit inquiry. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while transmitting your message.");
+    } finally {
+      setIsSendingContact(false);
+    }
+  };
+
   // Social Interactive Footer States
   const [fbLiked, setFbLiked] = useState<boolean>(false);
   const [fbLikesCount, setFbLikesCount] = useState<number>(420);
@@ -156,29 +220,22 @@ export default function App() {
   const [team, setTeam] = useState<{ id: string; name: string; role: string; photo: string; bio: string; }[]>(() => {
     try {
       const saved = localStorage.getItem('unique_merchants_team');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.some((m: any) => m.name === 'Mercy Wanjiku' || m.name === 'David Kamau' || m.name === 'Samuel Njoroge')) {
+          localStorage.removeItem('unique_merchants_team');
+        } else {
+          return parsed;
+        }
+      }
     } catch (e) {}
     return [
       {
         id: '1',
-        name: 'Samuel Njoroge',
-        role: 'Managing Director & Conveyance Counsel',
+        name: 'Daniel Maina',
+        role: 'Managing Director & Lead Broker',
         photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80',
-        bio: 'Over 15 years in Murang\'a land law, title validation, and corporate real estate. Samuel oversees all legal checks.'
-      },
-      {
-        id: '2',
-        name: 'Mercy Wanjiku',
-        role: 'Chief Property Sourcing Executive',
-        photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
-        bio: 'Specialist in Kenol and Juja plots. Mercy vets title deeds and manages landowner relationships.'
-      },
-      {
-        id: '3',
-        name: 'David Kamau',
-        role: 'Commercial Leasing & Management Lead',
-        photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80',
-        bio: 'Responsible for tenant acquisition, rent optimization, and compliance protocols for commercial developers.'
+        bio: 'Specialist in Murang\'a County land law, high-end property letting, and secure commercial leasing. Daniel leads the Unique Merchants agency with a decade of local market experience.'
       }
     ];
   });
@@ -1008,6 +1065,8 @@ export default function App() {
         favoritesCount={favorites.length}
         isAdminLoggedIn={isAdminLoggedIn}
         onLogout={handleLogout}
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode(prev => !prev)}
       />
 
       {/* Hero Slideshow rendered outside main for HOME tab to be full-width & fit perfectly edge to edge just like Rama Homes */}
@@ -1079,7 +1138,7 @@ export default function App() {
             <section className="bg-white rounded-3xl border border-gray-100 p-6 sm:p-8 shadow-xl -mt-20 relative z-10 mx-auto w-11/12 max-w-4xl">
               <div className="text-center mb-6">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-900/5 text-emerald-900 text-[10px] font-extrabold tracking-widest uppercase rounded-full mb-3 border border-emerald-900/10">
-                  <Sparkles className="w-3.5 h-3.5 fill-gold-500 text-gold-500 animate-pulse" /> UNIQUE MERCHANTS PORTAL
+                  <Sparkles className="w-3.5 h-3.5 fill-gold-500 text-gold-500 animate-pulse" /> UNIQUE MERCHANTS 
                 </span>
                 <h2 className="font-display font-black text-2xl sm:text-3xl text-emerald-950 leading-tight">
                   High-End Letting & Property Management
@@ -1094,7 +1153,7 @@ export default function App() {
                 <div className="relative w-full flex-1">
                   <input 
                     type="text" 
-                    placeholder="Ask AI: 'Find a maisonette to rent in Kenol under 80k KES...'" 
+                    placeholder="Ask Unique: 'Find a maisonette to rent in Kenol under 80k KES...'" 
                     className="w-full bg-transparent text-gray-800 text-xs px-3 py-3 pl-9 focus:outline-none placeholder-gray-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -1107,7 +1166,7 @@ export default function App() {
                     disabled={isAiSearching}
                     className="w-full sm:w-auto bg-emerald-900 hover:bg-emerald-950 text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
                   >
-                    {isAiSearching ? 'Gemini parsing...' : 'Search with AI'}
+                    {isAiSearching ? 'Gemini parsing...' : 'Search Unique'}
                     <Search className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -1941,28 +2000,50 @@ export default function App() {
               <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
                 <h3 className="font-display font-bold text-xs uppercase tracking-wider text-emerald-950 mb-4">Send a secure inquiry</h3>
                 
-                <form onSubmit={(e) => { e.preventDefault(); alert("Secure inquiry cataloged and dispatched!"); }} className="flex flex-col gap-4">
+                <form onSubmit={handleContactSubmit} className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Your Name</label>
-                      <input type="text" required placeholder="e.g., Samuel Njoroge" className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs" />
+                      <input 
+                        type="text" 
+                        required 
+                        placeholder="e.g., John Mwangi" 
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs" 
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
+                      />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Phone Number</label>
-                      <input type="tel" required placeholder="e.g., +254 712..." className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs" />
+                      <input 
+                        type="tel" 
+                        required 
+                        placeholder="e.g., +254 712..." 
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs" 
+                        value={contactPhone}
+                        onChange={(e) => setContactPhone(e.target.value)}
+                      />
                     </div>
                   </div>
 
                   <div>
                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Message</label>
-                    <textarea required rows={4} placeholder="Type your message..." className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs resize-none" />
+                    <textarea 
+                      required 
+                      rows={4} 
+                      placeholder="Type your message..." 
+                      className="w-full bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl text-xs resize-none" 
+                      value={contactMessage}
+                      onChange={(e) => setContactMessage(e.target.value)}
+                    />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-emerald-900 hover:bg-emerald-950 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider"
+                    disabled={isSendingContact}
+                    className="w-full bg-emerald-900 hover:bg-emerald-950 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider disabled:opacity-50 cursor-pointer"
                   >
-                    Transmit Message
+                    {isSendingContact ? "Transmitting..." : "Transmit Message"}
                   </button>
                 </form>
               </div>
@@ -1988,9 +2069,9 @@ export default function App() {
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                  <h4 className="font-display font-bold text-xs uppercase text-emerald-950 mb-2">Daily Property Tours</h4>
+                  <h4 className="font-display font-bold text-xs uppercase text-emerald-950 mb-2">Daily Working Days Caravans</h4>
                   <p className="text-xs text-gray-500 leading-relaxed">
-                    We offer daily physical viewing departing from Kenol Town Center directly to our Properties. Contact Office desk to book a seat.
+                    We host daily physical viewing trips departing from Kenol Town Center directly to our Properties. Contact Office desk to book a seat.
                   </p>
                 </div>
               </div>
@@ -2031,14 +2112,20 @@ export default function App() {
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
-                      data={[
-                        { name: 'Jan', visitors: 1200, leads: 400 },
-                        { name: 'Feb', visitors: 1900, leads: 600 },
-                        { name: 'Mar', visitors: 2800, leads: 950 },
-                        { name: 'Apr', visitors: 3400, leads: 1100 },
-                        { name: 'May', visitors: 4100, leads: 1400 },
-                        { name: 'Jun', visitors: 4900, leads: 1800 }
-                      ]}
+                      data={(() => {
+                        const baseData = [
+                          { name: 'Jan', visitors: 1200, leads: 400 },
+                          { name: 'Feb', visitors: 1900, leads: 600 },
+                          { name: 'Mar', visitors: 2800, leads: 950 },
+                          { name: 'Apr', visitors: 3400, leads: 1100 },
+                          { name: 'May', visitors: 4100, leads: 1400 },
+                          { name: 'Jun', visitors: 4900, leads: 1800 }
+                        ];
+                        const liveCount = requests.length;
+                        baseData[5].leads += liveCount;
+                        baseData[5].visitors += liveCount * 3;
+                        return baseData;
+                      })()}
                       margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                     >
                       <defs>
@@ -2064,9 +2151,9 @@ export default function App() {
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
                         data={[
-                          { name: 'Plots', count: 450 },
-                          { name: 'Home', count: 320 },
-                          { name: 'Rent', count: 180 }
+                          { name: 'Plots', count: 450 + requests.filter(r => /plot|land/i.test(r.propertyType)).length },
+                          { name: 'Home', count: 320 + requests.filter(r => /house|home|villa|apartment|mansion|commercial/i.test(r.propertyType)).length },
+                          { name: 'Rent/Inq', count: 180 + requests.filter(r => !/plot|land/i.test(r.propertyType) && !/house|home|villa|apartment|mansion|commercial/i.test(r.propertyType)).length }
                         ]}
                       >
                         <XAxis dataKey="name" fontSize={10} />
@@ -2826,6 +2913,70 @@ export default function App() {
                       <label htmlFor="social-media-not-live-checkbox" className="text-xs font-bold text-gray-700 cursor-pointer select-none">
                         Disable Simulated 'Live' Community Feeds (Set Social Media to Static/Not Live)
                       </label>
+                    </div>
+
+                    {/* Instagram Custom Uploads */}
+                    <div className="mt-6 border-t border-gray-150 pt-4">
+                      <h5 className="text-[10px] font-extrabold text-emerald-950 uppercase tracking-wider mb-2">
+                        Customize Instagram Grid Images
+                      </h5>
+                      <p className="text-gray-400 text-[9px] mb-3 leading-relaxed">
+                        Upload your custom images to replace the default Instagram live grid cards.
+                      </p>
+                      
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {[0, 1, 2, 3].map((idx) => {
+                          const currentImg = (settings.instagramImages || [])[idx] || (INITIAL_SETTINGS.instagramImages || [])[idx];
+                          return (
+                            <div key={idx} className="flex flex-col gap-2 p-2 bg-white rounded-xl border border-gray-150 shadow-sm">
+                              <span className="text-[9px] font-extrabold text-gray-400 uppercase">Slot {idx + 1}</span>
+                              <div className="aspect-square rounded-lg overflow-hidden bg-gray-50 border border-gray-100 relative group">
+                                <img src={currentImg} className="w-full h-full object-cover" />
+                              </div>
+                              <label className="w-full text-center bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[10px] font-bold py-1.5 px-2 rounded-lg cursor-pointer text-gray-700 transition-colors">
+                                Choose File
+                                <input 
+                                  type="file" 
+                                  accept="image/*" 
+                                  className="hidden" 
+                                  onChange={async (e) => {
+                                    if (e.target.files && e.target.files[0]) {
+                                      const file = e.target.files[0];
+                                      const formData = new FormData();
+                                      formData.append('file', file);
+                                      try {
+                                        const res = await fetch('/api/upload', {
+                                          method: 'POST',
+                                          body: formData
+                                        });
+                                        const data = await res.json();
+                                        if (data.success && data.url) {
+                                          const newImgs = [...(settings.instagramImages || ["", "", "", ""])];
+                                          while(newImgs.length < 4) newImgs.push("");
+                                          newImgs[idx] = data.url;
+                                          const updatedSetts = { ...settings, instagramImages: newImgs };
+                                          setSettings(updatedSetts);
+                                          await fetch('/api/settings', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify(updatedSetts)
+                                          });
+                                          alert(`Instagram image ${idx + 1} updated successfully!`);
+                                        } else {
+                                          alert('Upload failed: ' + (data.error || 'unknown error'));
+                                        }
+                                      } catch (err) {
+                                        console.error(err);
+                                        alert('Upload failed: ' + (err as Error).message);
+                                      }
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 
@@ -3967,7 +4118,6 @@ export default function App() {
       )}
 
       {/* ================= PERSISTENT FLOATING ACTIONS & CHATS ================= */}
-      <LiveChat />
 
       {/* Floating Circular WhatsApp Button (Rama Homes style) */}
       <a 
@@ -4044,7 +4194,7 @@ export default function App() {
                   required 
                   value={loginPasscode}
                   onChange={(e) => setLoginPasscode(e.target.value)}
-                  placeholder="Enter passcode " 
+                  placeholder="Enter passcode" 
                   className="w-full bg-gray-50 border border-gray-200 px-3 py-2.5 rounded-xl text-xs text-center font-bold tracking-widest focus:outline-none focus:ring-1 focus:ring-emerald-900" 
                   autoFocus
                   autoComplete="new-password"
@@ -4127,61 +4277,50 @@ export default function App() {
 
                 {/* Instagram Feed Grid */}
                 <div className="grid grid-cols-2 gap-3">
-                  {[
-                    {
-                      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80",
-                      likes: "242",
-                      comments: "15",
-                      tag: "Golden Ridge Estate"
-                    },
-                    {
-                      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80",
-                      likes: "185",
-                      comments: "9",
-                      tag: "Juja Plain Prime"
-                    },
-                    {
-                      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80",
-                      likes: "312",
-                      comments: "24",
-                      tag: "University View Apt"
-                    },
-                    {
-                      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80",
-                      likes: "420",
-                      comments: "37",
-                      tag: "Ready Title Deeds!"
-                    }
-                  ].map((post, i) => (
-                    <a 
-                      key={i} 
-                      href="https://www.instagram.com/uniquemerchants/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative aspect-square rounded-xl overflow-hidden border border-emerald-900/30 cursor-pointer block"
-                    >
-                      <img
-                        src={post.image}
-                        alt={post.tag}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Hover Stats Overlay */}
-                      <div className="absolute inset-0 bg-emerald-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-1.5 p-1 text-center">
-                        <span className="text-[9px] font-extrabold uppercase tracking-wider text-gold-500 px-1.5 py-0.5 bg-emerald-900/80 rounded">
-                          {post.tag}
-                        </span>
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-white">
-                          <span className="flex items-center gap-0.5">
-                            <Heart className="w-3 h-3 fill-rose-500 text-rose-500" /> {post.likes}
+                  {(settings.instagramImages || [
+                    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80",
+                    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80"
+                  ]).map((imgUrl, i) => {
+                    const postDetails = [
+                      { likes: "242", comments: "15", tag: "Golden Ridge Estate" },
+                      { likes: "185", comments: "9", tag: "Juja Plain Prime" },
+                      { likes: "312", comments: "24", tag: "University View Apt" },
+                      { likes: "420", comments: "37", tag: "Ready Title Deeds!" }
+                    ];
+                    const details = postDetails[i] || { likes: "120", comments: "5", tag: "Verified Listing" };
+                    return (
+                      <a 
+                        key={i} 
+                        href={settings.instagram || "https://www.instagram.com/uniquemerchants/"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative aspect-square rounded-xl overflow-hidden border border-emerald-900/30 cursor-pointer block"
+                      >
+                        <img
+                          src={imgUrl}
+                          alt={details.tag}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Hover Stats Overlay */}
+                        <div className="absolute inset-0 bg-emerald-950/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-1.5 p-1 text-center">
+                          <span className="text-[9px] font-extrabold uppercase tracking-wider text-gold-500 px-1.5 py-0.5 bg-emerald-900/80 rounded">
+                            {details.tag}
                           </span>
-                          <span className="flex items-center gap-0.5">
-                            <MessageSquare className="w-3 h-3 fill-sky-400 text-sky-400" /> {post.comments}
-                          </span>
+                          <div className="flex items-center gap-2 text-[10px] font-bold text-white">
+                            <span className="flex items-center gap-0.5">
+                              <Heart className="w-3 h-3 fill-rose-500 text-rose-500" /> {details.likes}
+                            </span>
+                            <span className="flex items-center gap-0.5">
+                              <MessageSquare className="w-3 h-3 fill-sky-400 text-sky-400" /> {details.comments}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </a>
-                  ))}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -4416,7 +4555,7 @@ export default function App() {
 
         {/* Legal bar */}
         <div className="border-t border-emerald-900 py-4 text-center text-[10px] text-gray-400">
-          <p>© {new Date().getFullYear()} {settings?.name || "Unique Merchants"}. All rights reserved. Powered By<button onClick={() => setShowLoginModal(true)} className="text-gray-400 hover:text-gold-500 underline ml-1 cursor-pointer transition-colors font-semibold">Kathurima Jr</button></p>
+          <p>© {new Date().getFullYear()} {settings?.name || "Unique Merchants"}. All rights reserved. Powered By <button onClick={() => setShowLoginModal(true)} className="text-gray-400 hover:text-gold-500 underline ml-1 cursor-pointer transition-colors font-semibold">Kathurima Jr</button></p>
         </div>
       </footer>
 

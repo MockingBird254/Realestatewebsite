@@ -1,6 +1,38 @@
 {
   "properties": [
     {
+      "title": "General Prospectus Inquiry in Contact Page (ian)",
+      "description": "Helo",
+      "price": 1500000,
+      "type": "land",
+      "propertyType": "General Prospectus Inquiry",
+      "county": "Murang'a",
+      "town": "Contact Page",
+      "estate": "Main Area",
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking": 0,
+      "size": "1/8 Acre",
+      "agent": {
+        "name": "Daniel Maina",
+        "phone": "+254 722 710 580",
+        "email": "info@uniquemerchants.co.ke",
+        "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
+      },
+      "isAiVerified": true,
+      "isFeatured": false,
+      "isSponsored": false,
+      "images": [
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
+      ],
+      "coordinates": {
+        "lat": -0.9949419967728543,
+        "lng": 37.120796006955786
+      },
+      "id": "prop-1783581290804",
+      "dateListed": "2026-07-09T07:14:50.804Z"
+    },
+    {
       "id": "prop-1",
       "title": "Premium 3-Bedroom Maisonette, Kenol",
       "description": "A gorgeous, newly completed 3-bedroom master-ensuite maisonette in Kenol, Murang'a. Features spacious rooms, premium modern fittings, a fully fitted kitchen, and robust 24/7 security. It comes with an individual ready title deed in an elite, fast-growing neighborhood. Ready for occupancy.",
@@ -50,10 +82,10 @@
       "parking": 0,
       "size": "50x100 ft",
       "agent": {
-        "name": "Mercy Wanjiku",
+        "name": "Daniel Maina",
         "phone": "+254 722 710 580",
         "email": "info@uniquemerchants.co.ke",
-        "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+        "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
       },
       "isAiVerified": true,
       "isFeatured": false,
@@ -84,10 +116,10 @@
       "parking": 1,
       "size": "95 sq m",
       "agent": {
-        "name": "David Kamau",
+        "name": "Daniel Maina",
         "phone": "+254 722 710 580",
         "email": "info@uniquemerchants.co.ke",
-        "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80"
+        "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
       },
       "isAiVerified": true,
       "isFeatured": true,
@@ -118,10 +150,10 @@
       "parking": 0,
       "size": "1.0 Acre",
       "agent": {
-        "name": "Mercy Wanjiku",
+        "name": "Daniel Maina",
         "phone": "+254 722 710 580",
         "email": "info@uniquemerchants.co.ke",
-        "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+        "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
       },
       "isAiVerified": true,
       "isFeatured": false,
@@ -180,6 +212,12 @@
     "leadBrokerPhone": "+254 722 710 580",
     "leadBrokerEmail": "info@uniquemerchants.co.ke",
     "leadBrokerPhoto": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
+    "instagramImages": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80",
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80",
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80",
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80"
+    ],
     "heroSlides": [
       {
         "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"
@@ -216,7 +254,18 @@
         "thumbnail": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80",
         "url": "https://www.youtube.com/@uniquemerchants1790"
       }
-    ]
+    ],
+    "servicesContent": "### Dynamic Tenant Portals\nTenants receive custom logins for monthly invoice clearing, maintenance reporting, and automatic rent payment alerts.\n\n### Financial Audit Reporting\nProperty owners access digital bank recon spreadsheets, tax audit summaries, and instant cash flow charts.\n\n### Legal Lease Drafting\nVetted tenancy agreements crafted in compliance with Murang'a County land bylaws and land court guidelines.\n\n### Routine Inspections\nScheduled on-site checkups with detailed photo portfolios, structural stability analysis, and repair budgeting.",
+    "propertyManagementContent": "# Property Management Breakdown\nAt Unique Merchants, we take care of your property letting with utmost professionalism and technological precision.\n\n### 1. Tenant Sourcing & Onboarding\nWe market your property across major digital platforms, conduct robust tenant background checks, and handle full physical onboarding and inventory collection.\n\n### 2. Rent Collection & Financial Management\nRent is collected securely through our automated systems, with direct payouts and monthly ledger reports delivered straight to the property owner's dashboard.\n\n### 3. Full-time Repair & Property Maintenance\nWe run scheduled on-site inspections and work with pre-vetted local technicians to handle routine building upkeep and sudden emergencies smoothly.\n\n### 4. Legal Compliance & Dispute Resolution\nWe construct solid tenancy lease agreements in full compliance with Murang'a County zoning and tenant laws, representing owners in all standard land court procedures.",
+    "customPages": [
+      {
+        "id": "page-1",
+        "title": "Buying Guide",
+        "slug": "buying-guide",
+        "content": "### Unique Merchants Real Estate Buying Guide\n\nWelcome to your step-by-step real estate buying handbook for Murang'a County and fast-growing environments like Kenol, Kabati, and Thika.\n\n#### 1. Title Deed Searches (The Vital First Step)\nNever transfer money without verifying ownership. At Unique Merchants, we run direct registry searches at the Ministry of Lands offices to ensure there are no active charges or double-allocation disputes.\n\n#### 2. Conveyancing & Legal Formalities\nWe hook you up with certified, local land lawyers to prepare standard sale agreements. Ten percent deposit secures the plot, and the balance is payable inside 90 days.\n\n#### 3. Land Control Board Consent\nStandard agricultural or development plots must obtain LCB consent to approve transfer. We coordinate this entire physical routine for you seamlessly."
+      }
+    ],
+    "customDropdowns": []
   },
   "blogs": [
     {
@@ -237,5 +286,18 @@
       "comments": []
     }
   ],
-  "requests": []
+  "requests": [
+    {
+      "name": "ian",
+      "phone": "0110597272",
+      "description": "Helo",
+      "email": "",
+      "budget": "Inquiry Desk",
+      "propertyType": "General Prospectus Inquiry",
+      "location": "Contact Page",
+      "id": "req-1783581262269",
+      "status": "matched",
+      "dateSubmitted": "2026-07-09T07:14:22.269Z"
+    }
+  ]
 }

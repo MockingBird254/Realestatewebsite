@@ -74,3 +74,49 @@
   border-left-color: transparent !important;
   border-right-color: transparent !important;
 }
+
+/* --- High-Quality Dark Theme Overrides --- */
+.dark {
+  background-color: #050c1e !important;
+}
+
+.dark body {
+  background-color: #050c1e !important;
+  color: #e2e8f0 !important;
+}
+
+.dark .bg-white {
+  background-color: #0b1836 !important;
+  color: #f8fafc !important;
+}
+
+.dark .bg-slate-50, .dark .bg-gray-50, .dark .bg-emerald-50, .dark .bg-gray-50\/50, .dark .bg-gray-50\/40 {
+  background-color: #081127 !important;
+}
+
+.dark .text-emerald-950, .dark .text-gray-900, .dark .text-gray-800, .dark .text-slate-900, .dark .text-emerald-900 {
+  color: #f8fafc !important;
+}
+
+.dark .text-gray-600, .dark .text-gray-700, .dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .border-gray-100, .dark .border-gray-200, .dark .border-gray-200\/60, .dark .border-emerald-100, .dark .border-emerald-200 {
+  border-color: #172a53 !important;
+}
+
+.dark input, .dark textarea, .dark select {
+  background-color: #0c1c3f !important;
+  border-color: #172a53 !important;
+  color: #f8fafc !important;
+}
+
+.dark input::placeholder, .dark textarea::placeholder {
+  color: #475569 !important;
+}
+
+.dark .shadow-sm, .dark .shadow, .dark .shadow-md, .dark .shadow-lg, .dark .shadow-xl {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { 
   Building, Menu, X, Sparkles, MapPin, 
   User, LayoutDashboard, Heart, Settings, LogOut, PhoneCall,
-  Facebook, Instagram, Youtube, Linkedin, ChevronDown
+  Facebook, Instagram, Youtube, Linkedin, ChevronDown, Sun, Moon
 } from 'lucide-react';
 import { CompanySettings } from '../types';
 
@@ -18,9 +18,20 @@ interface HeaderProps {
   favoritesCount: number;
   isAdminLoggedIn?: boolean;
   onLogout?: () => void;
+  isDarkMode: boolean;
+  onToggleTheme: () => void;
 }
 
-export default function Header({ settings, activeTab, setActiveTab, favoritesCount, isAdminLoggedIn = false, onLogout }: HeaderProps) {
+export default function Header({ 
+  settings, 
+  activeTab, 
+  setActiveTab, 
+  favoritesCount, 
+  isAdminLoggedIn = false, 
+  onLogout,
+  isDarkMode,
+  onToggleTheme
+}: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
@@ -271,6 +282,19 @@ export default function Header({ settings, activeTab, setActiveTab, favoritesCou
  
           {/* Right Action Icons */}
           <div className="hidden sm:flex items-center gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={onToggleTheme}
+              className={`p-2 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 ${
+                isHome 
+                  ? 'bg-white/10 hover:bg-white/20 border-white/15 text-white hover:text-gold-400' 
+                  : 'bg-gray-50 hover:bg-emerald-50 border-gray-100 text-gray-600 hover:text-emerald-900'
+              }`}
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+            </button>
+
             {/* Favorites Badge */}
             <button 
               onClick={() => setActiveTab('properties')}
@@ -524,6 +548,17 @@ export default function Header({ settings, activeTab, setActiveTab, favoritesCou
             </button>
             
             <div className="pt-4 border-t border-gray-100 flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  onToggleTheme();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2"
+              >
+                {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </button>
+
               {isAdminLoggedIn && (
                 <button
                   onClick={() => {

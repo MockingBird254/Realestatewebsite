@@ -43,6 +43,21 @@ export default function AddPropertyModal({
   const [parking, setParking] = useState(0);
   const [latInput, setLatInput] = useState("");
   const [lngInput, setLngInput] = useState("");
+  const [agentName, setAgentName] = useState(leadBrokerName);
+  const [agentPhone, setAgentPhone] = useState(leadBrokerPhone);
+  const [agentEmail, setAgentEmail] = useState(leadBrokerEmail);
+  const [agentPhoto, setAgentPhoto] = useState(leadBrokerPhoto);
+  const [isUploadingAgentPhoto, setIsUploadingAgentPhoto] = useState(false);
+
+  // Sync state when props change or modal opens
+  React.useEffect(() => {
+    if (isOpen) {
+      setAgentName(leadBrokerName);
+      setAgentPhone(leadBrokerPhone);
+      setAgentEmail(leadBrokerEmail);
+      setAgentPhoto(leadBrokerPhoto);
+    }
+  }, [isOpen, leadBrokerName, leadBrokerPhone, leadBrokerEmail, leadBrokerPhoto]);
   const [youtubeUrlInput, setYoutubeUrlInput] = useState("");
   const [amenityInput, setAmenityInput] = useState("");
   const [amenities, setAmenities] = useState<string[]>(["Ready Title Deed", "Water Connection", "Electricity Nearby"]);
@@ -140,6 +155,56 @@ export default function AddPropertyModal({
     setUploadedImages(prev => prev.filter((_, i) => i !== idxToRemove));
   };
 
+  const handleAgentPhotoUpload = async (file: File) => {
+    setIsUploadingAgentPhoto(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.url) {
+          setAgentPhoto(data.url);
+          setIsUploadingAgentPhoto(false);
+          return;
+        }
+      }
+
+      const base64Data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const fallbackResponse = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          base64: base64Data,
+          filename: file.name
+        })
+      });
+
+      const fallbackData = await fallbackResponse.json();
+      if (fallbackData.success && fallbackData.url) {
+        setAgentPhoto(fallbackData.url);
+      } else {
+        alert('Upload failed: ' + (fallbackData.error || 'Unable to store agent photo.'));
+      }
+    } catch (err) {
+      console.error('Agent photo upload error:', err);
+      alert('An error occurred while uploading the agent photo.');
+    } finally {
+      setIsUploadingAgentPhoto(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   const handlePublishListing = async (e: React.FormEvent) => {
@@ -199,10 +264,10 @@ export default function AddPropertyModal({
       images: uploadedImages.length > 0 ? uploadedImages : (presets[selectedImagePreset] || presets.land),
       videoUrl: youtubeUrlInput ? getEmbedUrl(youtubeUrlInput) : undefined,
       agent: {
-        name: leadBrokerName,
-        phone: leadBrokerPhone,
-        email: leadBrokerEmail,
-        photo: leadBrokerPhoto
+        name: agentName || leadBrokerName,
+        phone: agentPhone || leadBrokerPhone,
+        email: agentEmail || leadBrokerEmail,
+        photo: agentPhoto || leadBrokerPhoto
       },
       ...(latNum !== undefined && lngNum !== undefined && !isNaN(latNum) && !isNaN(lngNum) ? {
         coordinates: {
@@ -707,6 +772,92 @@ export default function AddPropertyModal({
                         </button>
                       </span>
                     ))}
+                  </div>
+                </div>
+
+                {/* Listing Agent / Sales Agent Details */}
+                <div className="bg-white p-4 rounded-xl border border-gray-200/60 flex flex-col gap-3">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-emerald-900 uppercase tracking-wider">Listing Agent / Sales Agent</h4>
+                    <p className="text-[9px] text-gray-400 mt-0.5">
+                      Specify the contact representative for this listing. It defaults to the company Lead Broker but can be custom set here.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-[10px] font-semibold text-gray-500 uppercase block mb-1">Agent Name</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. Daniel Maina"
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg text-xs"
+                        value={agentName}
+                        onChange={(e) => setAgentName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-semibold text-gray-500 uppercase block mb-1">Agent Phone</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. +254 722 710 580"
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg text-xs"
+                        value={agentPhone}
+                        onChange={(e) => setAgentPhone(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-semibold text-gray-500 uppercase block mb-1">Agent Email</label>
+                      <input 
+                        type="email" 
+                        placeholder="e.g. info@uniquemerchants.co.ke"
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg text-xs"
+                        value={agentEmail}
+                        onChange={(e) => setAgentEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
+                    <div>
+                      <label className="text-[10px] font-semibold text-gray-500 uppercase block mb-1">Agent Photo URL</label>
+                      <input 
+                        type="text" 
+                        placeholder="https://..."
+                        className="w-full bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg text-xs"
+                        value={agentPhoto}
+                        onChange={(e) => setAgentPhoto(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-semibold text-gray-500 uppercase block mb-1">Upload Agent Photo</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                              handleAgentPhotoUpload(e.target.files[0]);
+                            }
+                          }}
+                          className="hidden" 
+                          id="agent-photo-upload-input"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => document.getElementById('agent-photo-upload-input')?.click()}
+                          className="bg-emerald-900/10 hover:bg-emerald-900/20 text-emerald-900 text-[10px] font-bold py-2 px-4 rounded-lg border border-emerald-900/20 transition-all uppercase tracking-wide flex-1"
+                        >
+                          {isUploadingAgentPhoto ? 'Uploading...' : 'Choose File'}
+                        </button>
+                        {agentPhoto && (
+                          <div className="w-8 h-8 rounded-full border overflow-hidden bg-gray-50">
+                            <img src={agentPhoto} alt="Agent Preview" className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
 

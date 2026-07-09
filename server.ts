@@ -43,12 +43,29 @@ function loadDatabase() {
         blogs = [...INITIAL_BLOGS];
       }
       if (data.requests) requests = data.requests;
-      
-      // If we newly seeded properties or blogs, save them to disk
-      if (!data.properties || data.properties.length === 0 || !data.blogs || data.blogs.length === 0) {
+
+      // Dynmically cleanse database properties and settings from mock/sourcing agents
+      let changed = false;
+      properties = properties.map(p => {
+        if (p.agent && (p.agent.name === 'Mercy Wanjiku' || p.agent.name === 'David Kamau' || p.agent.name === 'Samuel Njoroge')) {
+          changed = true;
+          return {
+            ...p,
+            agent: {
+              name: "Daniel Maina",
+              phone: "+254 722 710 580",
+              email: "info@uniquemerchants.co.ke",
+              photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
+            }
+          };
+        }
+        return p;
+      });
+
+      if (changed || !data.properties || data.properties.length === 0 || !data.blogs || data.blogs.length === 0) {
         saveDatabase();
       }
-      console.log('--- DB Loaded successfully from db.json ---');
+      console.log('--- DB Loaded successfully and cleansed of mock agents from db.json ---');
     } else {
       properties = [...INITIAL_PROPERTIES];
       blogs = [...INITIAL_BLOGS];

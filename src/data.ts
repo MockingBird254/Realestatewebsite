@@ -47,6 +47,12 @@ export const INITIAL_SETTINGS: CompanySettings = {
   leadBrokerPhone: "+254 722 710 580",
   leadBrokerEmail: "info@uniquemerchants.co.ke",
   leadBrokerPhoto: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
+  instagramImages: [
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80",
+    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80",
+    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80",
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80"
+  ],
   heroSlides: [
     { image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" },
     { image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80" },
@@ -142,10 +148,10 @@ export const INITIAL_PROPERTIES: Property[] = [
     parking: 0,
     size: "50x100 ft",
     agent: {
-      name: "Mercy Wanjiku",
+      name: "Daniel Maina",
       phone: "+254 722 710 580",
       email: "info@uniquemerchants.co.ke",
-      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+      photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
     },
     isAiVerified: true,
     isFeatured: false,
@@ -176,10 +182,10 @@ export const INITIAL_PROPERTIES: Property[] = [
     parking: 1,
     size: "95 sq m",
     agent: {
-      name: "David Kamau",
+      name: "Daniel Maina",
       phone: "+254 722 710 580",
       email: "info@uniquemerchants.co.ke",
-      photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80"
+      photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
     },
     isAiVerified: true,
     isFeatured: true,
@@ -210,10 +216,10 @@ export const INITIAL_PROPERTIES: Property[] = [
     parking: 0,
     size: "1.0 Acre",
     agent: {
-      name: "Mercy Wanjiku",
+      name: "Daniel Maina",
       phone: "+254 722 710 580",
       email: "info@uniquemerchants.co.ke",
-      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+      photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
     },
     isAiVerified: true,
     isFeatured: false,

@@ -51,16 +51,16 @@ export default function PropertyRequestModal({ isOpen, onClose, onSuccess, leadB
       const data = await response.json();
       if (data.success) {
         setSubmitted(true);
-        setTimeout(() => {
-          onSuccess();
-          onClose();
-          // Reset states
-          setName("");
-          setEmail("");
-          setPhone("");
-          setDescription("");
-          setSubmitted(false);
-        }, 2200);
+        // Attempt automatic redirect to WhatsApp in a new tab
+        const cleanPhone = "254722710580";
+        const msg = `Hello Unique Merchants, I am submitting a property sourcing request:\n\n*Name*: ${name}\n*Email*: ${email || 'Not provided'}\n*Phone*: ${phone}\n*Preferred Location*: ${location}\n*Property Type*: ${propertyType}\n*Budget*: ${budget}\n*Details*: ${description}`;
+        const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
+        try {
+          window.open(waUrl, '_blank');
+        } catch (e) {
+          console.error(e);
+        }
+        onSuccess(); // Refresh requests list in parent app
       }
     } catch (err) {
       console.error(err);
@@ -99,8 +99,39 @@ export default function PropertyRequestModal({ isOpen, onClose, onSuccess, leadB
             <div>
               <h4 className="font-display font-extrabold text-emerald-900 uppercase">Request Sourced Safely!</h4>
               <p className="text-xs text-gray-500 mt-1 max-w-xs mx-auto">
-                Thank you, <strong>{name}</strong>. Our lead broker <strong>{leadBrokerName}</strong> is matching your parameters against our pipeline and will call you on <strong>{phone}</strong> shortly.
+                Thank you, <strong>{name}</strong>. Our lead broker <strong>{leadBrokerName}</strong> is matching your parameters.
               </p>
+              
+              <div className="mt-5 p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex flex-col gap-3 text-center">
+                <p className="text-[11px] font-bold text-emerald-900 leading-relaxed">
+                  To guarantee instant notification and start a direct dialogue with our Murang'a office, tap below to forward your parameters on WhatsApp:
+                </p>
+                <a
+                  href={`https://wa.me/254722710580?text=${encodeURIComponent(`Hello Unique Merchants, I am submitting a property sourcing request:\n\n*Name*: ${name}\n*Email*: ${email || 'Not provided'}\n*Phone*: ${phone}\n*Preferred Location*: ${location}\n*Property Type*: ${propertyType}\n*Budget*: ${budget}\n*Details*: ${description}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-bold uppercase py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                    <path d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.761.459 3.472 1.332 4.981L2 22l5.161-1.353c1.464.798 3.111 1.22 4.84 1.22 5.507 0 9.989-4.483 9.989-9.989A9.99 9.99 0 0012.012 2zm6.183 14.19c-.27.761-1.355 1.391-1.854 1.439-.49.049-.968.232-3.136-.667-2.613-1.083-4.281-3.754-4.412-3.929-.13-.174-1.055-1.401-1.055-2.673 0-1.272.651-1.898.88-2.147.23-.249.501-.311.667-.311h.478c.153 0 .358-.058.555.419.202.49.691 1.684.75 1.807.059.123.1.266.019.429-.082.164-.123.266-.245.41-.122.143-.257.32-.367.429-.122.122-.25.255-.108.5.142.245.632 1.042 1.355 1.684.93.829 1.713 1.085 1.956 1.208.244.123.385.102.528-.061.143-.164.61-.715.773-.959.163-.245.326-.204.544-.122.218.082 1.385.653 1.624.774.239.121.397.182.455.281.058.099.058.572-.213 1.333z" />
+                  </svg>
+                  Connect on WhatsApp
+                </a>
+              </div>
+
+              <button
+                onClick={() => {
+                  setName("");
+                  setEmail("");
+                  setPhone("");
+                  setDescription("");
+                  setSubmitted(false);
+                  onClose();
+                }}
+                className="mt-4 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-emerald-900 transition-colors cursor-pointer"
+              >
+                Close Window
+              </button>
             </div>
           </div>
         ) : (
