@@ -244,6 +244,38 @@ async function startServer() {
     }
   });
 
+  app.put('/api/properties/:id', (req, res) => {
+    try {
+      const { id } = req.params;
+      const index = properties.findIndex(p => p.id === id);
+      if (index !== -1) {
+        properties[index] = { ...properties[index], ...req.body };
+        saveDatabase();
+        res.json({ success: true, property: properties[index] });
+      } else {
+        res.status(404).json({ error: 'Property not found' });
+      }
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  app.delete('/api/properties/:id', (req, res) => {
+    try {
+      const { id } = req.params;
+      const originalLength = properties.length;
+      properties = properties.filter(p => p.id !== id);
+      if (properties.length < originalLength) {
+        saveDatabase();
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: 'Property not found' });
+      }
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
   // 2. Client Requests
   app.get('/api/properties/requests', (req, res) => {
     res.json(requests);
